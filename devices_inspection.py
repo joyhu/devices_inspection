@@ -9,8 +9,7 @@ import threading
 from netmiko import ConnectHandler
 from netmiko import exceptions
 
-FILENAME = input(f"\n请输入info文件名（默认为 info.xlsx）：") or "info.xlsx"  # 指定info文件名称
-INFO_PATH = os.path.join(os.getcwd(), FILENAME)  # 读取info文件路径
+INFO_PATH = os.path.join(os.getcwd(),'info.xlsx')  # 读取info文件路径
 LOCAL_TIME = time.strftime('%Y.%m.%d.%H', time.localtime())  # 读取当前日期
 LOCK = threading.Lock()  # 线程锁实例化
 POOL = threading.BoundedSemaphore(200)  # 最大线程控制
@@ -21,7 +20,13 @@ def get_devices_info(info_file):  # 获取info文件中的设备登录信息
         devices_dataframe = pandas.read_excel(info_file, sheet_name=0, dtype=str, keep_default_na=False)
     except FileNotFoundError:  # 如果没有配置info文件或info文件名错误
         print(f'\n没有找到info文件！\n')  # 代表没有找到info文件或info文件名错误
-        input('输入Enter退出。')  # 提示用户按Enter键退出
+        for i2 in range(5, -1, -1):  # 等待5秒退出程序，为工程师留有充分的时间，查看CMD中的输出信息
+            if i2 > 0:
+                print(f'\r程序将在 {i2} 秒后退出...', end='')
+                time.sleep(1)
+            else:
+                print(f'\r程序已退出！', end='')
+        #input('输入Enter退出。')  # 提示用户按Enter键退出
         sys.exit(1)  # 异常退出
     else:
         devices_dict = devices_dataframe.to_dict('records')  # 将DataFrame转换成字典
@@ -35,7 +40,13 @@ def get_cmds_info(info_file):  # 获取info文件中的巡检命令
         cmds_dataframe = pandas.read_excel(info_file, sheet_name=1, dtype=str)
     except ValueError:  # 捕获异常信息
         print(f'\ninfo文件缺失子表格信息！\n')  # 代表info文件缺失子表格信息
-        input('输入Enter退出。')  # 提示用户按Enter键退出
+        for i2 in range(5, -1, -1):  # 等待5秒退出程序，为工程师留有充分的时间，查看CMD中的输出信息
+            if i2 > 0:
+                print(f'\r程序将在 {i2} 秒后退出...', end='')
+                time.sleep(1)
+            else:
+                print(f'\r程序已退出！', end='')
+        #input('输入Enter退出。')  # 提示用户按Enter键退出
         sys.exit(1)  # 异常退出
     else:
         cmds_dict = cmds_dataframe.to_dict('list')  # 将DataFrame转换成字典
@@ -148,4 +159,12 @@ if __name__ == '__main__':
     t2 = time.time()  # 程序执行计时结束点
     print(f'\n' + '<' * 40 + '\n')  # 打印一行“<”，隔开巡检报告信息
     print(f'巡检完成，共巡检 {len(threading_list)} 台设备，{file_lines} 台异常，共用时 {round(t2 - t1, 1)} 秒。\n')  # 打印巡检报告
-    input('输入Enter退出。')  # 提示用户按Enter键退出
+
+    for i1 in range(5, -1, -1):  # 等待5秒退出程序，为工程师留有充分的时间，查看CMD中的输出信息
+        if i1 > 0:
+            print(f'\r程序将在 {i1} 秒后退出...', end='')
+            time.sleep(1)
+        else:
+            print(f'\r程序已退出！', end='')
+            
+    #input('输入Enter退出。')  # 提示用户按Enter键退出
