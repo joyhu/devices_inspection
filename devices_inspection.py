@@ -10,7 +10,7 @@ from netmiko import ConnectHandler
 from netmiko import exceptions
 
 INFO_PATH = os.path.join(os.getcwd(),'info.xlsx')  # 读取info文件路径
-LOCAL_TIME = time.strftime('%Y.%m.%d.%H', time.localtime())  # 读取当前日期
+LOCAL_TIME = time.strftime('%Y.%m.%d.%H.%M', time.localtime())  # 读取当前日期
 LOCK = threading.Lock()  # 线程锁实例化
 POOL = threading.BoundedSemaphore(200)  # 最大线程控制
 
