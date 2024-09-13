@@ -1,4 +1,4 @@
-基于icefire-ken/devices_inspection 2024.09.12版本修改，把退出修改为老版本的5秒自动退出，读取文件名称直接读取info.xlsx，创建巡检日志目录名称时添加了时。
+基于icefire-ken/devices_inspection 2024.09.12版本修改，把退出修改为老版本的5秒自动退出，读取文件名称直接读取info.xlsx，创建巡检日志目录名称时添加了"时分"。
 这样就可以和ztasker软件一起配合在windows下实现定时自动巡检，或定时执行一些命令排查故障。
 # 简介
 
